@@ -10,7 +10,9 @@ class Plant(db.Model, SerializerMixin):
     name = db.Column(db.String)
     image = db.Column(db.String)
     price = db.Column(db.Float)
-    is_in_stock = db.Column(db.Boolean)
+    is_in_stock = db.Column(db.Boolean, default=True)
 
-    def __repr__(self):
-        return f'<Plant {self.name} | In Stock: {self.is_in_stock}>'
+    serialize_only = ('id', 'name', 'image', 'price', 'is_in_stock')
+    
+    def to_dict(self):
+        return super().to_dict(only=self.serialize_only)
